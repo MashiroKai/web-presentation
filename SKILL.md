@@ -271,6 +271,31 @@ See `<SKILL_DIR>/templates/`. All templates inherit from the style guide.
 | project-review.md | Project progress |
 | minimal.md | Clean, minimal |
 
+### Custom Template Creation
+
+用户可以创建自己的模板。详见 `<SKILL_DIR>/templates/CUSTOM-TEMPLATE-GUIDE.md`。
+
+**当用户表达想要自定义风格时，Agent 应主动引导：**
+
+1. 了解用户的审美偏好（色调、氛围、布局倾向）
+2. 推荐最接近的内置模板作为起点
+3. 逐步引导用户完善每个部分（配色、字体、布局、动画）
+4. 生成模板文件保存到 `templates/` 目录
+5. 用户确认后，后续演示可直接引用
+
+**引导话术示例：**
+```
+想创建自己的模板？我来帮你。
+
+先告诉我几个关键信息：
+1. 你喜欢什么色调？（暖色/冷色/暗色/亮色）
+2. 整体氛围是什么感觉？（严肃、活泼、科技感、文艺……）
+3. 有参考的设计吗？（某个网站、App、或者你喜欢的风格）
+4. 布局偏好？（居中为主 / 左对齐为主 / 自由）
+
+我会根据你的描述生成一个模板，你可以逐项调整。
+```
+
 See `system-prompt/templates-guide.md` for custom templates.
 
 ## Page Types
