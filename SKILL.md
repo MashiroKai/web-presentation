@@ -159,6 +159,7 @@ Adapt to user's starting point:
 | Content outline | Template matching |
 | Partial content | Fill gaps |
 | Existing project | Edit pages |
+| **Existing .pptx file** | **Extract template → Generate** |
 
 **Full workflow:**
 
@@ -297,6 +298,51 @@ See `<SKILL_DIR>/templates/`. All templates inherit from the style guide.
 ```
 
 See `system-prompt/templates-guide.md` for custom templates.
+
+### Extract Template from Existing PPT
+
+用户可以提供已有的 .pptx 文件，Agent 提取其设计风格生成模板。
+
+**触发表达：** "参考这个 PPT 的风格"、"照着这个做"、"帮我提取模板"
+
+**工作流程：**
+
+```
+用户提供 .pptx 文件
+    ↓
+1. 运行提取脚本（配色、字体、布局、动画）
+    ↓
+2. 视觉分析（截图观察 + Agent 判断）
+    ↓
+3. 生成模板.md（综合数据 + 视觉判断）
+    ↓
+4. 用户确认模板
+    ↓
+5. 用新模板生成演示
+```
+
+**关键步骤：**
+
+1. **运行脚本** 提取结构化数据：
+   ```bash
+   python3 <SKILL_DIR>/scripts/extract_pptx.py <file.pptx> <output-dir>
+   ```
+   输出 `extracted-style.json`，包含配色方案、字体方案、布局类型、每页动画/元素分析。
+
+2. **视觉补充** — 脚本无法捕获完整视觉效果。需要截图辅助：
+   - 让用户至少提供封面、内容页、图表页、结束页的截图
+   - 或用 LibreOffice 转图片：`libreoffice --headless --convert-to png <file.pptx>`
+   - Agent 观察截图判断：整体氛围、对齐方式、留白程度、标题装饰等
+
+3. **生成模板** — 综合 Step 1 + Step 2，按 `templates/` 目录格式生成模板.md
+   - 配色：从 theme 的 accent1-6 中选 2-3 个最突出的
+   - 字体：映射 OOXML 字体名到 Web 安全字体栈
+   - 布局：从截图判断对齐/分栏方式
+   - 动画：从 slide_analyses 的 animation_count 判断克制/丰富
+
+4. **用户确认** → 保存到 `templates/` 目录
+
+详细操作指南见 `<SKILL_DIR>/templates/EXTRACT-FROM-PPT.md`。
 
 ## Page Types
 
