@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Presentation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/theme/white.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Overflow Prevention ── */
+    .reveal .slides section {
+      overflow: hidden !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* ── Center All Content (Horizontal + Vertical) ── */
+    .reveal .slides section {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      padding: 5% 10% !important;
+      max-width: 100% !important;
+    }
+    /* Constrain direct children to 75% width and center */
+    .reveal .slides section > * {
+      max-width: 75% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+    /* Lists stay left-aligned but centered as a block */
+    .reveal .slides section ul,
+    .reveal .slides section ol {
+      text-align: left !important;
+      display: inline-block !important;
+      margin: 0 auto !important;
+      max-width: 100% !important;
+    }
+    .reveal .slides section > * {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .reveal pre {
+      max-height: 70vh !important;
+      overflow: auto !important;
+    }
+    .reveal pre::-webkit-scrollbar { width: 4px; }
+    .reveal pre::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 2px; }
+
+    /* ── Hide Default Navigation Arrows ── */
+    .reveal .controls { display: none !important; }
+
+    /* ── Custom Bottom-Center Navigation ── */
+    .nav-controls {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 200;
+    }
+    .nav-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1.5px solid var(--nav-color, #2E5C8A);
+      background: rgba(255,255,255,0.92);
+      color: var(--nav-color, #2E5C8A);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .nav-btn:hover {
+      background: var(--nav-color, #2E5C8A);
+      color: #fff;
+    }
+    .nav-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+    .nav-btn:disabled:hover {
+      background: rgba(255,255,255,0.92);
+      color: var(--nav-color, #2E5C8A);
+    }
+
+    /* ── Progress Bar ── */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--nav-color, #2E5C8A), var(--nav-color-secondary, #5A7D9A));
+      transition: width 0.4s ease;
+      z-index: 200;
+    }
+  </style>
+  <!-- Code highlight -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/highlight/monokai.css">
+  <!-- KaTeX for formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!-- Pages loaded dynamically -->
+    </div>
+  </div>
+
+  <!-- Custom Navigation Buttons -->
+  <div class="nav-controls">
+    <button class="nav-btn" id="prevBtn" onclick="Reveal.prev()">‹</button>
+    <button class="nav-btn" id="nextBtn" onclick="Reveal.next()">›</button>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/notes/notes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/math/math.js"></script>
+
+  <script>
+    // ── Page Manifest ──
+    // Add page files here in order
+    const PAGE_MANIFEST = [
+      'pages/01-title.html',
+      // Add more pages as you create them
+    ];
+
+    // ── Load Slides ──
+    async function loadPresentation() {
+      const container = document.querySelector('.slides');
+      for (const src of PAGE_MANIFEST) {
+        try {
+          const resp = await fetch(src);
+          if (!resp.ok) throw new Error(`Failed to load ${src}: ${resp.status}`);
+          const html = await resp.text();
+          container.insertAdjacentHTML('beforeend', html);
+        } catch (err) {
+          console.error(err);
+          container.insertAdjacentHTML('beforeend',
+            `<section><h2>⚠️ 加载失败</h2><p>${src}</p></section>`);
+        }
+      }
+
+      // ── Initialize Reveal ──
+      Reveal.initialize({
+        hash: true,
+        transition: 'fade',
+        transitionSpeed: 'default',
+        center: true,
+        slideNumber: 'c/t',
+        width: 1920,
+        height: 1080,
+        margin: 0.04,
+        plugins: [ RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+      });
+
+      // ── Update nav + progress on slide change ──
+      function updateUI() {
+        const indices = Reveal.getIndices();
+        const total = Reveal.getTotalSlides();
+        const current = indices.h + 1;
+
+        // Progress bar
+        const pct = (current / total) * 100;
+        document.getElementById('progressBar').style.width = pct + '%';
+
+        // Disable buttons at boundaries
+        document.getElementById('prevBtn').disabled = (current <= 1);
+        document.getElementById('nextBtn').disabled = (current >= total);
+      }
+
+      Reveal.on('slidechanged', updateUI);
+      Reveal.on('ready', updateUI);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadPresentation);
+  </script>
+</body>
+</html>
