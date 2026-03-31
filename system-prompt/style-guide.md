@@ -1,83 +1,71 @@
-# Style Guide — 系统级审美与风格
+# Style Guide — 最低审美标准
+
+> 本文档定义网页演示的**最低美学基线**，确保任何演示都有基本的专业品质。
+> 但它不规定具体的设计选择——模板和用户需求才是最终指南。
 
 ## 设计哲学
 
-**少即是多。内容为王，设计退后。**
+**最低标准不等于平庸。** 它确保即使是最简单的演示，也不会丑。
 
-每一像素都应服务于内容传达。没有装饰性元素，没有多余的线条、阴影、渐变。好的设计是透明的——用户感受不到它的存在，却无法离开它。
-
----
-
-## 核心原则
-
-### 1. 克制 · Restraint
-
-> 克制不是偷懒，是选择。
-
-- 每页只传达**一个**核心观点
-- 动画 ≤ 2 个/页，仅用于逻辑展开
-- 颜色 ≤ 3 种（主色 + 辅助 + 强调）
-- 不用图标库，除非内容本身需要
-
-### 2. 留白 · Whitespace
-
-> 留白不是"空"，是呼吸感。
-
-- 元素间距 ≥ 1.5em
-- 页面内容面积 ≤ 60%
-- 边距充足，内容不贴边
-- 信息密度低 ≠ 内容少，是让每个字都有分量
-
-### 3. 层次 · Hierarchy
-
-> 读者应该在 0.5 秒内知道该看哪里。
-
-- 标题一眼可辨（大小、粗细、颜色三重区分）
-- 重点用 **加粗** 或颜色，不用下划线、不用过多强调
-- fragment 动画服务于阅读节奏，不炫技
-- 大标题 → 副标题 → 正文 → 注释，视觉权重递减
-
-### 4. 一致性 · Consistency
-
-> 一致性是信任的基础。
-
-- 同一演示内，所有页的字体、间距、对齐方式一致
-- 相同类型的页面（内容页、过渡页）结构相同
-- 颜色语义固定：同一个颜色不跨语义使用
-- 如果第 3 页的要点用了蓝色圆点，第 7 页也必须一样
+**模板优先，用户至上。** 系统提示词提供框架和参考，模板决定视觉风格，用户决定最终效果。三者冲突时：用户 > 模板 > 系统提示词。
 
 ---
 
-## 配色系统
+## 最低美学标准
 
-配色由模板定义，系统提示词不规定具体色值。模板需定义以下语义色：
+以下是任何演示都必须满足的底线。低于这个标准的产出不合格。
+
+### 1. 可读性（不可妥协）
+
+- 文字与背景对比度足够（WCAG AA 以上）
+- 正文字号 ≥ 16px（1920×1080 下）
+- 行高 ≥ 1.5，确保阅读舒适
+- 不在深色背景上放纯白色文字（用 `#F5F5F7` 等柔和浅色）
+- 不用纯黑 `#000000` 作为文字色（用深灰替代）
+
+### 2. 内容不溢出（硬性约束）
+
+- 所有页面内容必须在幻灯片画布内
+- 不出现滚动条（代码块除外）
+- 内容面积不超过画布 80%，保留呼吸空间
+
+### 3. 一致性（最低要求）
+
+- 同一演示内，所有页面使用相同的字体方案
+- 同一类型的页面结构一致
+- 颜色语义不跨义使用（主色不突然变成强调色）
+
+### 4. 层次感
+
+- 标题与正文有明确的视觉区分（大小、粗细、颜色至少两项）
+- 信息有主次，不是一锅粥
+
+---
+
+## 设计参考（非强制）
+
+以下内容是**推荐方案和参考**，不是铁律。模板和用户可以自由覆盖。
+
+### 配色参考
+
+模板应定义以下语义色，但色值和具体用法由模板决定：
 
 | 语义 | 用途 | 说明 |
 |------|------|------|
-| 主色 Primary | 标题、导航、强调元素 | 模板的核心色调 |
-| 辅助色 Secondary | 注释、页码、次要信息 | 与主色协调 |
-| 强调色 Accent | 关键数据、高亮、警示 | 高对比度，谨慎使用 |
-| 正文色 Text | 正文、列表文字 | 保证可读性 |
-| 背景色 Background | 页面底色 | 通常白色或浅色 |
-| 深色背景 Dark | 封面、结束页 | 深色，文字用浅色 |
+| 主色 Primary | 标题、强调元素 | 模板的核心色调 |
+| 辅助色 Secondary | 注释、次要信息 | 与主色协调 |
+| 强调色 Accent | 关键数据、高亮 | 高对比度，谨慎使用 |
+| 正文色 Text | 正文、列表 | 保证可读性 |
+| 背景色 Background | 页面底色 | 通常浅色或白色 |
+| 深色背景 Dark | 封面、结束页等 | 深色，文字用浅色 |
 
-### 配色铁律（通用）
+**推荐约束（非强制）：**
+- 颜色种类建议 ≤ 3 种主色，保持克制
+- 强调色每页建议 ≤ 2 处，避免喧宾夺主
 
-- **颜色 ≤ 3 种主色**（主色 + 辅助 + 强调）
-- **强调色每页 ≤ 2 处**
-- **深色背景上的文字**用浅色（非纯白 `#FFFFFF`，推荐柔和浅灰）
-- **禁用纯黑 `#000000`**（视觉疲劳，用深灰替代）
-- **同一演示内语义一致**：主色不跨语义使用
+### 字体参考
 
----
-
-## 字体系统
-
-字体由模板定义，系统提示词只规定结构要求。
-
-### 字体结构要求
-
-每种模板需定义三类字体：
+模板应定义三类字体：
 
 | 类型 | 用途 | 要求 |
 |------|------|------|
@@ -85,237 +73,80 @@
 | 正文字体 | 段落、列表 | 清晰易读 |
 | 代码字体 | 代码块 | 等宽字体 |
 
-### 字号参考（基于 1920×1080）
+**字号参考（基于 1920×1080）：**
 
-| 元素 | 字号 | 字重 | 说明 |
-|------|------|------|------|
-| 大标题 h1 | 2.4em | 700 | 封面、结束页 |
-| 页面标题 h2 | 1.6em | 700 | 内容页主标题 |
-| 小标题 h3 | 1.0em | 600 | 段落标题 |
-| 正文 | 0.9em | 400 | 主体内容 |
-| 注释/页码 | 0.75em | 400 | 辅助信息 |
-| 代码块 | 0.72em | 400 | 代码展示 |
+| 元素 | 参考字号 | 说明 |
+|------|----------|------|
+| 大标题 h1 | 2.4em | 封面、结束页 |
+| 页面标题 h2 | 1.6em | 内容页主标题 |
+| 小标题 h3 | 1.0em | 段落标题 |
+| 正文 | 0.9em | 主体内容 |
+| 注释/页码 | 0.75em | 辅助信息 |
+| 代码块 | 0.72em | 代码展示 |
 
-### 字体铁律（通用）
+**推荐排版技巧：**
+- 标题 `letter-spacing: -0.02em` 可以让标题更紧凑有力
+- 正文 `line-height: 1.8–2.0` 增加呼吸感
+- 用加粗或颜色强调，斜体是备选方案
 
-- 标题 `letter-spacing: -0.02em`（更紧凑）
-- 正文 `line-height: 1.8–2.0`（呼吸感）
-- **不用斜体强调** — 用加粗或颜色替代
+### 布局参考
 
----
-
-## 布局系统
-
-### 居中铁律
-
-**所有页面内容必须水平+垂直居中，四边留白均匀。**
-
-每页 HTML 必须用居中容器包裹所有内容：
+**居中布局** 是最常见、最安全的方案，但不是唯一方案。
 
 ```html
+<!-- 居中方案（推荐大多数场景使用） -->
 <section>
   <div style="max-width:70%; margin:0 auto; text-align:center;">
-    <!-- 所有页面内容放这里 -->
+    <!-- 内容 -->
   </div>
 </section>
 ```
 
-**禁止直接在 `<section>` 下放置未包裹的内容。** 除非是封面/结束页等特殊设计。
+**其他可行布局：**
 
-- `max-width:70%` — 内容不超过画布宽度的 70%，左右各留 15%
-- `margin:0 auto` — 水平居中
-- `text-align:center` — 文字居中
-- reveal.js `center: true` — 垂直居中
-- CSS `padding: 5% 10%` — 额外安全边距
+| 布局 | 适用场景 |
+|------|----------|
+| 居中 | 通用、简洁、安全（推荐默认） |
+| 左对齐 | 列表密集型内容、阅读型演示 |
+| 分栏（Flex/Grid） | 图文并排、对比展示 |
+| 全幅背景图 | 封面、视觉冲击页 |
+| 偏上留白 | 文字少、需要呼吸感的过渡页 |
 
-### 页面类型
+**选择依据：** 模板偏好 > 内容类型 > 个人审美。没有标准答案。
 
-| 类型 | 布局 | 场景 |
-|------|------|------|
-| **封面** | 居中 + 深色背景 | 第一页 |
-| **内容页** | 居中容器 + 标题居中 + 列表居中对齐 | 主体内容 |
-| **分栏页** | flex 左右分栏（内容居中） | 图文并排 |
-| **过渡页** | 居中大字 | 章节切换 |
-| **结束页** | 居中 + 深色背景 | 最后一页 |
+### 动画参考
 
-### 间距系统
+**推荐方案：**
+- `fragment fade-in` — 最通用，逐条展开
+- `data-transition="fade"` — 页间过渡最克制
+- 每页 fragment ≤ 4 个（推荐，非强制）
 
-```css
-/* 标题 → 内容 */
-margin-bottom: 1em;
+**可用动画：**
 
-/* 要点之间 */
-line-height: 2.0;
+| 动画 | 效果 | 适合场景 |
+|------|------|----------|
+| `fragment fade-in` | 淡入 | 逐条展开（最安全） |
+| `fragment fade-out` | 淡出 | 临时提示后消失 |
+| `fragment highlight-red` | 红色高亮 | 关键数据、警示 |
+| `fragment highlight-green` | 绿色高亮 | 完成项、正向数据 |
+| `fragment grow` | 放大 | 强调（可用，但节制） |
+| `fragment shrink` | 缩小 | 次要信息降级 |
 
-/* 页面边距 (Reveal.js) */
-margin: 0.04;  /* ≈ 4% */
-```
+> 动画服务于内容节奏，不是为了炫技。但如果用户想要炫技，也可以做——做好就行。
 
----
-
-## 内容溢出防护
-
-**每页内容必须严格在幻灯片画布内，不能溢出。** 这是硬性约束。
-
-### CSS 防护
-
-```css
-.reveal .slides section {
-  overflow: hidden !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  box-sizing: border-box !important;
-}
-.reveal .slides section > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.reveal pre {
-  max-height: 70vh !important;
-  overflow: auto !important;
-}
-```
-
-### 内容上限
-
-**16:9 / 1920×1080：**
-
-| 元素 | 上限 |
-|------|------|
-| 标题 | ≤ 2 行 |
-| 要点 | ≤ 6 条 |
-| 正文行 | ≤ 8 行 |
-| 代码块 | ≤ 15 行（超出用滚动） |
-| 图表 | ≤ 画布 50% 面积 |
-
-**4:3 / 1440×1080：**
-
-内容区更窄，要点 ≤ 5 条，每行字数更少。
-
----
-
-## 导航与进度条
-
-### 底部居中导航按钮
-
-reveal.js 默认箭头已隐藏，使用自定义底部居中圆形按钮。
+### 深色背景页参考
 
 ```html
-<div class="nav-controls">
-  <button class="nav-btn" id="prevBtn" onclick="Reveal.prev()">‹</button>
-  <button class="nav-btn" id="nextBtn" onclick="Reveal.next()">›</button>
-</div>
-```
-
-```css
-.nav-controls {
-  position: fixed;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  z-index: 200;
-}
-.nav-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1.5px solid var(--nav-color, #2E5C8A);
-  background: rgba(255,255,255,0.92);
-  color: var(--nav-color, #2E5C8A);
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.nav-btn:hover {
-  background: var(--nav-color, #2E5C8A);
-  color: #fff;
-}
-.nav-btn:disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-}
-```
-
-**颜色自定义：** 通过 CSS 变量 `--nav-color` 和 `--nav-color-secondary` 控制，默认蓝灰色系。
-
-### 进度条
-
-底部渐变进度条，显示当前页码/总页码。
-
-```html
-<div class="progress-bar" id="progressBar"></div>
-```
-
-```css
-.progress-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--nav-color, #2E5C8A), var(--nav-color-secondary, #5A7D9A));
-  transition: width 0.4s ease;
-  z-index: 200;
-}
-```
-
-**JS 更新逻辑：**
-```javascript
-function updateUI() {
-  var idx = Reveal.getIndices();
-  var total = Reveal.getTotalSlides();
-  var cur = idx.h + 1;
-  document.getElementById('progressBar').style.width = (cur / total * 100) + '%';
-  document.getElementById('prevBtn').disabled = (cur <= 1);
-  document.getElementById('nextBtn').disabled = (cur >= total);
-}
-Reveal.on('slidechanged', updateUI);
-Reveal.on('ready', updateUI);
-```
-
----
-
-## 动画系统
-
-### 可用动画
-
-| 动画 | 效果 | 用途 |
-|------|------|------|
-| `fragment fade-in` | 淡入 | 逐条展开（最常用） |
-| `fragment highlight-red` | 红色高亮 | 关键数据强调 |
-| `data-transition="fade"` | 页间淡入淡出 | 推荐全局过渡 |
-
-### 动画铁律
-
-- 每页 fragment ≤ 4 个
-- **禁用** `grow`、`shrink`、`zoom` — 过于花哨
-- 页间过渡全局用 `fade`，不用 `slide`、`convex`
-- 速度用默认或 `slow`，不用 `fast`
-- 动画是为内容服务的，不是用来炫技的
-
----
-
-## 深色背景页
-
-用于封面和结束页，营造仪式感和呼吸感。
-
-```html
-<section data-transition="fade" data-background-color="var(--bg-dark, #1D1D1F)">
-  <h1 style="color:var(--text-on-dark, #F5F5F7); font-size:2.4em;">标题</h1>
-  <p style="color:var(--text-secondary, #86868B); font-size:1.0em;">副标题</p>
+<section data-background-color="#1D1D1F">
+  <h1 style="color:#F5F5F7;">标题</h1>
+  <p style="color:#86868B;">副标题</p>
 </section>
 ```
 
-**规则：**
-- 背景：`#1D1D1F`（近黑）
-- 标题：`#F5F5F7`（浅灰白）
-- 副标题：`#86868B`（灰）
-- **不在深色页上放代码块或图表** — 可读性差
+- 封面和结束页常用深色背景，但不是铁律
+- 深色页上避免放代码块或图表（可读性差，但如果对比度够，也可以）
 
----
-
-## 代码展示
+### 代码展示参考
 
 ```html
 <pre><code class="language-python" data-trim data-noescape>
@@ -324,22 +155,47 @@ def example():
 </code></pre>
 ```
 
-- 代码字体：SF Mono / Menlo
-- 语法高亮主题：monokai（与浅色背景对比度高）
-- 代码字号比正文小 1–2 级
+- 代码字体：SF Mono / Menlo / 等宽字体
+- 语法高亮主题：monokai（推荐，与浅色背景对比度高）
 - 过长代码截断，只展示关键部分
-- 关键行可用 `highlight` 标记
+
+### 公式
+
+使用 KaTeX：行内 `$...$`，块级 `$$...$$`。字号继承正文。
 
 ---
 
-## 公式
+## 导航与进度条参考
 
-使用 KaTeX：行内 `$...$`，块级 `$$...$$`
+底部导航按钮和进度条是推荐的交互组件，模板可以自由调整样式。
 
-- 公式字号与正文一致
-- 不单独为公式设置样式
-- 公式颜色继承正文色
-- 复杂公式拆成多步，配合 fragment 逐行展示
+```html
+<div class="nav-controls">
+  <button class="nav-btn" id="prevBtn" onclick="Reveal.prev()">‹</button>
+  <button class="nav-btn" id="nextBtn" onclick="Reveal.next()">›</button>
+</div>
+<div class="progress-bar" id="progressBar"></div>
+```
+
+通过 CSS 变量 `--nav-color` 控制颜色，默认蓝灰色系。
+
+---
+
+## 内容上限参考
+
+**16:9 / 1920×1080：**
+
+| 元素 | 建议上限 | 说明 |
+|------|----------|------|
+| 标题 | ≤ 2 行 | 越短越好 |
+| 要点 | ≤ 6 条 | 超出考虑分页 |
+| 正文行 | ≤ 8 行 | 超出考虑分页或分栏 |
+| 代码块 | ≤ 15 行 | 超出用滚动或截断 |
+| 图表 | ≤ 画布 50% 面积 | 配合文字说明 |
+
+**4:3 / 1440×1080：** 内容区更窄，各项上限适当缩减。
+
+> 这些是建议值，不是硬约束。如果内容确实需要更多，做好排版即可。
 
 ---
 
@@ -355,16 +211,8 @@ def example():
 | 字体 | `assets/fonts/custom.woff2` | 自定义字体（非必须） |
 | 视频 | `assets/media/demo.mp4` | 嵌入视频（非必须） |
 
-### 使用规则
-
-- **图片优先 SVG** — 矢量、清晰、体积小
-- 位图用 PNG（图表）或 WebP（照片），**不用 JPG**
-- 图片尺寸适配 1280×720，不超分
-- 所有资源通过相对路径引用：`src="assets/figures/xxx.png"`
-- 不在 assets 里放代码或 HTML
-
-### 命名规范
-
-- 小写英文 + 连字符：`bloch-sphere.svg`
-- 按类型建子目录：`assets/figures/`、`assets/icons/`
-- **不用中文文件名**
+**推荐：**
+- 图片优先 SVG（矢量、清晰、体积小）
+- 位图用 PNG 或 WebP
+- 所有资源通过相对路径引用
+- 文件名用小写英文 + 连字符：`bloch-sphere.svg`

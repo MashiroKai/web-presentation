@@ -22,11 +22,25 @@ Build HTML presentations that look and feel like PPT. Pure web, no PowerPoint.
 如果用户明确提到 **4:3**，则使用 4:3 (1440×1080)。
 否则一律使用 16:9，无需确认。
 
-### Rule 2: 主动提问，完善需求
+### Rule 2: 主动提问，确认方案后才动手
 
-用户需求模糊时（只有主题没有细节），**必须先提问再动手**，不能直接开始制作。
+**核心原则：先沟通，再动手。** 不要直接开始制作，必须先理解并确认用户的真实需求。
 
-**必须问清楚的内容：**
+**提问流程：**
+
+```
+用户提出需求
+    ↓
+分析需求完整度
+    ↓
+需求模糊？→ 主动提问（见下表）
+    ↓
+需求明确？→ 呈现方案供确认
+    ↓
+用户确认 → 开始制作
+```
+
+**必须问清楚的内容（需求模糊时）：**
 | 问题 | 目的 |
 |------|------|
 | 核心主题/论文是什么？ | 确定内容方向 |
@@ -34,28 +48,38 @@ Build HTML presentations that look and feel like PPT. Pure web, no PowerPoint.
 | 演讲时长多少？ | 确定页数 |
 | 必须包含的关键点？ | 不遗漏重要内容 |
 | 参考材料有没有？ | 充实内容 |
+| 风格偏好？ | 模板选择 |
 
-**确认方案后才开始制作。** 呈现选项等用户选择。
+**需求明确时也要呈现方案：**
+即使用户需求很清晰，也要在动手前展示：
+1. 选用的模板及理由
+2. 内容大纲（每页做什么）
+3. 布局/动画的初步想法
+
+让用户确认方案后再执行。如果用户说"你看着办"，可以跳过确认直接制作，但做完后要展示结果。
 
 ### Rule 3: 内容不超画布
 
 所有页面内容必须严格在幻灯片画布内，不能溢出。文字不能太小（可读性），也不能太大（不能滚动）。
 
-### Rule 4: 内容居中
+### Rule 4: 布局自由度
 
-**所有页面内容必须水平+垂直居中，四边留白均匀。** 每页 HTML 必须用居中容器包裹：
+**居中布局是推荐的默认方案**（大多数场景都合适），但不是铁律。根据模板偏好和内容类型，可以使用左对齐、分栏、全幅背景等布局。
 
 ```html
+<!-- 推荐：居中方案（安全、通用） -->
 <section>
   <div style="max-width:70%; margin:0 auto; text-align:center;">
-    <!-- 所有内容放这里 -->
+    <!-- 内容 -->
   </div>
 </section>
 ```
 
-- `max-width:70%` — 内容不超过画布 70%，左右各留 15%
-- `margin:0 auto` — 水平居中
-- **禁止直接在 `<section>` 下放内容**（封面/结束页除外）
+- 模板有明确布局偏好的 → 优先遵循模板
+- 用户有明确偏好的 → 优先用户需求
+- 没有特殊要求 → 默认居中
+
+**唯一铁律：** 内容不超出画布，且视觉上整洁有序。
 
 ### Rule 5: 必须生成最终交付物
 
@@ -138,21 +162,20 @@ Adapt to user's starting point:
 
 **Full workflow:**
 
-1. **Requirements** — topic, audience, scenario
-2. **Slide size** — 默认 16:9 (1920×1080)。仅当用户明确提到 4:3 时使用 4:3 (1440×1080)。**不需要询问。**
-3. **Clarify** — if the user's idea is vague or incomplete, **actively ask questions** to help them refine: What's the core message? Who's the audience? How long is the talk? What key points must be covered? Do NOT start building until the plan is confirmed.
-4. **Template** — select style from `templates/`
-5. **Outline** — Markdown outline → page list
-6. **Confirm** — outline + template + slide size approval
-7. **Build** — generate pages/*.html + index.html (set `SLIDE_RATIO` env var when calling `init_project.sh`). Each page is a separate `pages/XX-name.html` file. Update `PAGE_MANIFEST` in index.html.
-8. **Preview** — 启动本地服务器并自动打开浏览器：
+1. **需求沟通** — 主题、受众、时长、关键内容、风格偏好。**需求不明确时必须提问。**
+2. **幻灯片尺寸** — 默认 16:9 (1920×1080)。仅当用户明确提到 4:3 时使用 4:3。
+3. **选择模板** — 从 `templates/` 中匹配最合适的模板。
+4. **方案呈现** — 向用户展示：模板选择 + 内容大纲 + 布局/动画思路。**等待确认。**
+5. **确认后动手** — 用户确认方案后才开始生成页面。
+6. **Build** — 生成 pages/*.html + index.html。每个页面独立 `pages/XX-name.html`。更新 `PAGE_MANIFEST`。
+7. **Preview** — 启动本地服务器并自动打开浏览器：
    ```bash
    cd <project-dir> && python3 dev-server.py &
    ```
    然后用浏览器打开 `http://localhost:8000`。如果端口被占用，换 8001/8002 等。
-9. **Polish** — 动画、单页调整、内容溢出检查
-10. **Export PDF** — **必须执行：** `bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>` → 生成 `presentation.pdf`（自动先 build，不覆盖源 index.html）
-11. **Deliver** — 确认交付清单完整：
+8. **Polish** — 动画、单页调整、内容溢出检查。风格和动画遵循模板偏好，模板未指定时参考 `system-prompt/style-guide.md`。
+9. **Export PDF** — **必须执行：** `bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>` → 生成 `presentation.pdf`
+10. **Deliver** — 确认交付清单完整：
     - `<project-dir>/pages/*.html` — 可编辑源文件
     - `<project-dir>/build/index.html` — 双击可打开的独立 HTML
     - `<project-dir>/presentation.pdf` — PDF 版本
@@ -233,7 +256,9 @@ Rules:
 
 ## Design Principles
 
-See `system-prompt/style-guide.md` for the complete aesthetic and style system — colors, typography, layout, animation, dark mode, code display, and assets folder usage. Follow it on every page you create.
+设计优先级：**用户需求 > 模板偏好 > 系统默认参考**
+
+详见 `system-prompt/style-guide.md`，它定义了最低美学标准和设计参考，但不强制具体设计选择。模板和用户需求才是最终指南。
 
 ## Templates
 
