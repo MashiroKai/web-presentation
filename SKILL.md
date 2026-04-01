@@ -355,3 +355,201 @@ See `system-prompt/architecture.md` for index.html internals and loading mechani
 ## Bilingual
 
 All templates and page types support Chinese and English.
+
+---
+
+## 🌐 网络素材检索 (Web Asset Sourcing)
+
+**从互联网检索专业视觉素材，全程自动化，无需人工介入。**
+
+### 核心原则
+
+1. **全自动** — 所有素材获取必须是 Agent 可独立完成的，不依赖人工注册/登录/浏览器操作
+2. **直链优先** — 优先使用可直接引用的 URL，零配置零下载
+3. **免费可商用** — 仅使用明确标明免费商用的资源
+4. **性能意识** — 图片尺寸适中，加载速度优先
+5. **不要用 emoji 占位** — 没有合适的素材时，用 CSS 图形/渐变/SVG 内联代替，绝不退化为 emoji
+
+### 自动化检索方式
+
+Agent 有以下工具可用，**按优先级**使用：
+
+| 优先级 | 工具 | 适用场景 | 说明 |
+|--------|------|----------|------|
+| 1️⃣ | `web_search` | 搜索图片资源 | 在 Unsplash/Pexels 等站内搜索，从结果 URL 提取直链 |
+| 2️⃣ | `web_fetch` | 抓取素材页面 | 提取图片 URL 列表，用于批量获取 |
+| 3️⃣ | `exec` (curl) | 下载素材到本地 | `curl -o assets/xxx.jpg <url>` |
+| 4️⃣ | 已知直链 | 直接引用 | 下文预置的常用素材 URL，可直接用 |
+
+---
+
+### 素材来源（仅限全自动化）
+
+#### 1. 壁纸 / 背景图 — Unsplash & Pexels（直链引用）
+
+两者均为免费可商用，URL 参数控制尺寸，无需注册，直接在 HTML/CSS 中引用。
+
+**Unsplash 格式：**
+```
+https://images.unsplash.com/photo-{ID}?w={width}&h={height}&fit=crop
+```
+
+**常用科技风直链（直接可用）：**
+
+| 风格 | URL |
+|------|-----|
+| 暗色网络拓扑 | `https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop` |
+| 科技数据流 | `https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&h=1080&fit=crop` |
+| 编程暗色 | `https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1920&h=1080&fit=crop` |
+| 赛博朋克 | `https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&h=1080&fit=crop` |
+
+**Pexels 格式：**
+```
+https://images.pexels.com/photos/{id}/pexels-photo-{id}.jpeg?auto=compress&w={width}
+```
+
+**常用科技风直链（直接可用）：**
+
+| 风格 | URL |
+|------|-----|
+| 抽象科技 | `https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&w=1920` |
+| 蓝色数据 | `https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&w=1920` |
+| 暗色抽象 | `https://images.pexels.com/photos/355952/pexels-photo-355952.jpeg?auto=compress&w=1920` |
+
+**发现新素材：** 用 `web_search` 搜索 `site:unsplash.com {关键词}` 或 `site:pexels.com {关键词}`，从结果中提取 photo ID 构造直链。
+
+#### 2. 图标 — Lucide Icons（CDN，零配置）
+
+开源 ISC 协议，CDN 直接引入，无需下载、无需注册。
+
+```html
+<!-- 引入 CDN（在 index.html 或页面中添加一次即可） -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<!-- 使用图标 -->
+<i data-lucide="workflow"></i>
+<i data-lucide="code-2"></i>
+
+<!-- 初始化 -->
+<script>lucide.createIcons();</script>
+```
+
+**常用图标速查：**
+
+| 类别 | 图标名称 |
+|------|----------|
+| 开发 | `code-2`, `terminal`, `git-branch`, `variable` |
+| 流程 | `workflow`, `layers`, `git-merge`, `arrow-right` |
+| 数据 | `bar-chart-2`, `pie-chart`, `database`, `table` |
+| 安全 | `shield-check`, `lock`, `key` |
+| 通用 | `zap`, `rocket`, `sparkles`, `eye`, `check`, `x`, `globe`, `search`, `download`, `external-link`, `monitor` |
+| UI | `menu`, `chevron-down`, `settings`, `palette`, `layout` |
+
+**更多图标：** 用 `web_search` 搜索 `lucide icons {图标名}` 查找完整图标名列表。
+
+#### 3. 随机占位图 — Lorem Picsum（极简 API）
+
+无需注册，URL 即图片，适合快速原型。
+
+```
+https://picsum.photos/1920/1080          # 随机全屏图
+https://picsum.photos/seed/{任意字符串}/1920/1080  # 基于种子生成固定图片（推荐，可复现）
+```
+
+#### 4. CSS/SVG 替代方案（无需外部资源）
+
+当不需要照片类素材时，优先用纯代码实现：
+
+**渐变背景：**
+```css
+background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+background: radial-gradient(circle at 20% 50%, #2E5C8A22 0%, transparent 50%);
+```
+
+**几何装饰（纯 CSS）：**
+```css
+/* 半透明圆形装饰 */
+.deco-circle {
+  position: absolute;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: rgba(46, 92, 138, 0.15);
+  border: 1px solid rgba(46, 92, 138, 0.2);
+}
+```
+
+**内联 SVG 图标（无 CDN 依赖）：**
+```html
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+</svg>
+```
+
+---
+
+### 自动化检索流程
+
+```
+接到设计任务
+ ↓
+分析素材需求
+ ├─ 壁纸/背景图 → 查下文预置直链 或 web_search 搜索新素材
+ ├─ 图标 → Lucide Icons CDN（零配置）
+ ├─ 占位图 → Lorem Picsum（seed 可复现）
+ └─ 无合适素材 → CSS 渐变/SVG 内联替代
+ ↓
+获取素材（全程自动）
+ ├─ 直链可用 → 直接在 HTML/CSS 中引用 URL
+ ├─ 需要本地文件 → curl -o 下载到 assets/
+ └─ 需要 SVG → 内联 SVG 或 Lucide CDN
+ ↓
+应用到设计
+ ├─ 图片 → <img src="url" loading="lazy" alt="desc">
+ ├─ 图标 → Lucide CDN
+ ├─ 背景 → CSS background-image + 渐变叠加
+ └─ 装饰 → 纯 CSS 几何/SVG
+```
+
+**全流程无需人工参与。**
+
+---
+
+### 设计最佳实践
+
+#### 图片处理
+- **Hero 背景**：图片 + `filter: brightness(0.4-0.6)` + 渐变叠加层
+- **卡片图片**：`object-fit: cover` + 固定高度
+- **装饰图**：降低 opacity，不抢视觉焦点
+
+#### 壁纸叠加层模板
+```css
+.wallpaper-section {
+  position: relative;
+}
+.wallpaper-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,10,15,0.3), rgba(10,10,15,0.9));
+}
+```
+
+#### 禁忌
+- ❌ 不要使用 emoji 作为 UI 图标或占位
+- ❌ 不要使用不明版权的图片
+- ❌ 不要使用过大的图片（单张超过 2MB）
+- ❌ 不要使用需要注册/登录/API Key 的素材源（Pixabay API、iconfont.cn 等）
+- ❌ 不要使用需要浏览器手动操作的素材源（wallhaven.cc、Storyset 等）
+
+#### 搜索关键词
+
+| 场景 | web_search 关键词 |
+|------|-----------|
+| 科技感 | `site:unsplash.com dark technology` |
+| 抽象背景 | `site:unsplash.com abstract gradient dark` |
+| 自然 | `site:pexels.com dark landscape` |
+| 商务 | `site:pexels.com office minimal dark` |
+
+---
+
+*网络素材检索 v1.1 | 2026-04-01 | 全自动化，零人工介入*

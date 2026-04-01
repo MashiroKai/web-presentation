@@ -1,17 +1,14 @@
 # Page Types — 页面类型参考
 
-> 每种页面类型是一个结构化骨架，供参考和起步使用。在此基础上可以自由变体——调整布局、增加交互、改变视觉风格，只要保持专业品质和内容清晰。
-
-**优先级：** 模板偏好 > 页面内容需求 > 本参考
+> 每种页面类型是一个结构化骨架。在此基础上填充内容，保持风格一致。
 
 ---
 
 ## 1. 标题页 · Title
 
-封面是第一印象。常见做法是深色背景 + 居中，但根据模板风格也可以有其他方案。
+封面是第一印象。深色背景、居中、信息克制。
 
 ```html
-<!-- 参考方案：深色居中 -->
 <section data-background-color="var(--bg-dark, #1D1D1F)">
   <h1 style="color:var(--text-on-dark, #F5F5F7);">演示标题</h1>
   <p style="color:var(--text-secondary, #86868B);">副标题或一句话说明</p>
@@ -23,10 +20,9 @@
 
 ## 2. 内容页 · Content
 
-最常用的页面类型。居中容器是推荐方案，左对齐或分栏同样可行。
+最常用的页面类型。外层居中容器包裹所有内容。
 
 ```html
-<!-- 参考方案：居中容器 -->
 <section>
   <div style="max-width:70%; margin:0 auto; text-align:center;">
     <h2 style="color:var(--color-primary, #2E5C8A); border-bottom:2px solid var(--color-primary, #2E5C8A); padding-bottom:12px; margin-bottom:30px;">
@@ -41,6 +37,8 @@
   </div>
 </section>
 ```
+
+**关键：** 所有内容必须包裹在 `<div style="max-width:70%; margin:0 auto;">` 中，确保视觉居中。
 
 ---
 
