@@ -1,8 +1,24 @@
 # Architecture — 分页架构详解
 
-## index.html 职责
+## 项目结构
 
-index.html 是总控文件，负责：
+```
+project/
+├── src/
+│   ├── index.html      ← 开发版（fetch 动态加载 pages）
+│   ├── pages/          ← 幻灯片页面
+│   └── style.css       ← 全局样式
+├── index.html          ← 构建产物（双击可打开的独立 HTML）
+├── manifest.json       ← 页面清单 + 元数据
+├── project-index.md    ← 项目文档
+├── dev-server.py       ← 本地预览服务器
+├── assets/             ← 图片、数据等资源
+└── presentation.pdf    ← PDF 导出
+```
+
+## src/index.html 职责
+
+`src/index.html` 是开发版总控文件，负责：
 
 1. **页面加载** — 通过 fetch API 动态加载 `pages/*.html`
 2. **Reveal.js 初始化** — 配置过渡效果、导航、快捷键
@@ -54,11 +70,23 @@ cd project-dir && python3 dev-server.py
 # 打开 http://localhost:8000
 ```
 
-`index.html` 通过 `PAGE_MANIFEST` 数组动态加载 `pages/*.html`，修改页面后刷新即可看到效果。
+`src/index.html` 通过 `PAGE_MANIFEST` 数组动态加载 `pages/*.html`，修改页面后刷新即可看到效果。
 
 ---
 
-## 打包分发（可选）
+## 构建产物
+
+根目录的 `index.html` 是构建产物（由 `build.sh` 生成），内联所有页面和样式，双击即可打开。
+
+```bash
+bash build.sh project-dir
+```
+
+构建产物会**覆盖**根目录的 `index.html`，源文件安全保存在 `src/` 中。
+
+---
+
+## 打包分发
 
 如需生成独立可运行的单文件 HTML（双击即可打开，无需服务器）：
 
@@ -66,7 +94,7 @@ cd project-dir && python3 dev-server.py
 bash build.sh project-dir
 ```
 
-此步骤仅用于**分发场景**，开发过程中不需要。
+输出到项目根目录 `index.html`，源文件在 `src/` 中不受影响。
 
 ---
 

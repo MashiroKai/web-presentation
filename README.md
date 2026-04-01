@@ -33,10 +33,10 @@
 
 ### 📄 分页架构，按你的想法改
 
-每张幻灯片是独立的 `pages/XX-name.html` 文件。想改第三页？直接改那个文件，不影响其他页面。不用在一个几千行的 HTML 里翻找。
+每张幻灯片是独立的 `src/pages/XX-name.html` 文件。想改第三页？直接改那个文件，不影响其他页面。不用在一个几千行的 HTML 里翻找。
 
 ```
-pages/
+src/pages/
 ├── 01-title.html      ← 封面
 ├── 02-background.html ← 背景介绍
 ├── 03-method.html     ← 方法（想改这页？改这个文件就行）
@@ -138,21 +138,22 @@ Agent 会：
 
 ```
 projects/<project-name>/
-├── index.html          ← 开发版（fetch 动态加载 pages）
+├── src/                ← 源码（开发编辑区域）
+│   ├── index.html      ← 开发版（fetch 动态加载 pages）
+│   ├── style.css       ← 全局样式
+│   └── pages/          ← 每个幻灯片页面（独立文件）
+│       ├── 01-title.html
+│       ├── 02-content.html
+│       └── ...
+├── index.html          ← 构建产物（双击可打开的独立 HTML）
 ├── dev-server.py       ← 本地预览服务器
 ├── manifest.json       ← 项目元数据 + 页面列表
 ├── project-index.md    ← 项目文档
-├── style.css           ← 全局样式
 ├── assets/             ← 图片、数据等资源
-├── pages/              ← 每个幻灯片页面（独立文件）
-│   ├── 01-title.html
-│   ├── 02-content.html
-│   └── ...
-└── build/              ← 构建产物（内联单文件，用于分发）
-    └── index.html
+└── presentation.pdf    ← PDF 导出
 ```
 
-最终交付：`output/<project-name>/` 下的 HTML + PDF。
+最终交付：项目根目录下的 `index.html`（双击可打开）+ `presentation.pdf`。
 
 ## 预览
 

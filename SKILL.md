@@ -86,7 +86,7 @@ Build HTML presentations that look and feel like PPT. Pure web, no PowerPoint.
 完成页面制作后，**必须执行以下两步**，不能跳过：
 
 ```bash
-# 1. 生成双击可打开的 index.html（内联所有页面，不覆盖源文件）
+# 1. 构建双击可打开的 index.html（输出到项目根目录，源文件在 src/ 中不受影响）
 bash <SKILL_DIR>/scripts/build.sh <project-dir>
 
 # 2. 导出 PDF（自动先 build，输出到 <project-dir>/presentation.pdf）
@@ -94,8 +94,8 @@ bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>
 ```
 
 **最终交付清单（缺一不可）：**
-- `<project-dir>/pages/*.html` — 可编辑的源页面文件
-- `<project-dir>/build/index.html` — 双击可打开的独立 HTML（需联网加载 CDN 资源）
+- `<project-dir>/src/pages/*.html` — 可编辑的源页面文件
+- `<project-dir>/index.html` — 双击可打开的独立 HTML（需联网加载 CDN 资源）
 - `<project-dir>/presentation.pdf` — PDF 版本
 
 ### Rule 6: 优先使用网络素材优化设计
@@ -139,17 +139,17 @@ Checks git, python3, curl, node. Missing deps auto-installed.
 bash <SKILL_DIR>/scripts/init_project.sh <project-name> <template> [output-dir]
 ```
 
-Creates project with index.html, pages/, style.css, project-index.md, manifest.json.
+Creates project with src/index.html, src/pages/, src/style.css, project-index.md, manifest.json.
 
 ### 3. Build (Self-Contained)
 
-After editing pages, build a standalone index.html that works by double-clicking (no server needed):
+After editing pages, build a standalone index.html to project root (works by double-clicking):
 
 ```bash
 bash <SKILL_DIR>/scripts/build.sh <project-dir>
 ```
 
-Inlines all pages + CSS into a single index.html.
+Inlines all pages + CSS into root index.html. Source files in `src/` are preserved.
 
 ### 4. Export PDF
 
@@ -180,7 +180,7 @@ Adapt to user's starting point:
 3. **选择模板** — 从 `templates/` 中匹配最合适的模板。
 4. **方案呈现** — 向用户展示：模板选择 + 内容大纲 + 布局/动画思路。**等待确认。**
 5. **确认后动手** — 用户确认方案后才开始生成页面。
-6. **Build** — 生成 pages/*.html + index.html。每个页面独立 `pages/XX-name.html`。更新 `PAGE_MANIFEST`。
+6. **Build** — 生成 src/pages/*.html + src/index.html。每个页面独立 `src/pages/XX-name.html`。更新 `PAGE_MANIFEST`。
 7. **Preview** — 启动本地服务器并自动打开浏览器：
    ```bash
    cd <project-dir> && python3 dev-server.py &
@@ -190,7 +190,7 @@ Adapt to user's starting point:
 9. **Export PDF** — **必须执行：** `bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>` → 生成 `presentation.pdf`
 10. **Deliver** — 按 Rule 5 交付清单执行。
 
-**注意：开发预览用 dev-server.py（HTTP 服务器），不需要 build.sh 内联。** build.sh 仅用于需要单文件离线分发的场景，且输出到 `build/` 目录，不覆盖源文件。
+**注意：开发预览用 dev-server.py（HTTP 服务器，从 src/ 加载），不需要 build。** build 将所有页面内联输出到根目录 `index.html`，源文件在 `src/` 中不受影响。
 
 ### 自动预览（必须执行）
 
@@ -212,15 +212,18 @@ python3 dev-server.py 8001 &
 
 ```
 project/
-├── project-index.md    # Project map (READ THIS FIRST)
-├── manifest.json       # Metadata
-├── index.html          # Build output (self-contained) or controller
-├── pages/              # One file per slide (development)
-│   ├── 01-title.html
-│   └── ...
-├── style.css           # Global styles
-├── presentation.pdf    # PDF export (after export-pdf.sh)
-└── assets/             # Images, charts
+├── src/                # 源码（开发编辑区域）
+│   ├── index.html      # 开发版（fetch 动态加载 pages）
+│   ├── pages/          # 每个幻灯片页面
+│   │   ├── 01-title.html
+│   │   └── ...
+│   └── style.css       # 全局样式
+├── index.html          # 构建产物（双击可打开）
+├── manifest.json       # 元数据 + 页面列表
+├── project-index.md    # 项目文档
+├── dev-server.py       # 本地预览服务器
+├── assets/             # 图片、数据等资源
+└── presentation.pdf    # PDF 导出
 ```
 
 ## Project Index (Critical)
@@ -232,7 +235,7 @@ project/
 Each page is a `<section>` in its own HTML file. Edit one without touching others:
 
 ```html
-<!-- pages/03-method.html -->
+<!-- src/pages/03-method.html -->
 <section>
   <h2>Page Title</h2>
   <ul>

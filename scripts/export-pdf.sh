@@ -7,7 +7,7 @@ set -e
 
 PROJECT_DIR="${1:-.}"
 OUTPUT="${2:-$PROJECT_DIR/presentation.pdf}"
-BUILD_INDEX="$PROJECT_DIR/build/index.html"
+BUILD_INDEX="$PROJECT_DIR/index.html"
 
 # ── Step 1: Build (inline all pages) ──
 # index.html uses fetch() which doesn't work on file:// protocol.
@@ -45,7 +45,7 @@ const fs = require('fs');
 (async () => {
   const projectDir = process.argv[1];
   const output = process.argv[2];
-  const indexHtml = path.resolve(projectDir, 'build', 'index.html');
+  const indexHtml = path.resolve(projectDir, 'index.html');
 
   if (!fs.existsSync(indexHtml)) {
     console.error('❌ index.html not found');

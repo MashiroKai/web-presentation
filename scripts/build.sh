@@ -5,13 +5,12 @@
 set -e
 
 PROJECT_DIR="${1:-.}"
-INDEX="$PROJECT_DIR/index.html"
+INDEX="$PROJECT_DIR/src/index.html"
 MANIFEST="$PROJECT_DIR/manifest.json"
-BUILD_DIR="$PROJECT_DIR/build"
-BUILD_INDEX="$BUILD_DIR/index.html"
+BUILD_INDEX="$PROJECT_DIR/index.html"
 
 if [[ ! -f "$INDEX" ]]; then
-  echo "❌ index.html not found in $PROJECT_DIR"
+  echo "❌ src/index.html not found in $PROJECT_DIR"
   exit 1
 fi
 
@@ -25,7 +24,7 @@ if isinstance(pages, list) and all(isinstance(p, str) for p in pages):
     for p in pages:
         print(p)
 else:
-    for f in sorted(glob.glob('$PROJECT_DIR/pages/*.html')):
+    for f in sorted(glob.glob('$PROJECT_DIR/src/pages/*.html')):
         print(os.path.relpath(f, '$PROJECT_DIR'))
 ")
 
@@ -58,8 +57,8 @@ else
   SLIDE_W=1920; SLIDE_H=1080
 fi
 
-# Create build directory
-mkdir -p "$BUILD_DIR"
+# Create build output directory if needed (project root always exists, but keep for safety)
+mkdir -p "$PROJECT_DIR"
 
 # Build standalone index.html
 cat > "$BUILD_INDEX" << HEADER
@@ -77,9 +76,9 @@ cat > "$BUILD_INDEX" << HEADER
 HEADER
 
 # Inline style.css if exists
-if [[ -f "$PROJECT_DIR/style.css" ]]; then
+if [[ -f "$PROJECT_DIR/src/style.css" ]]; then
   echo "  <style>" >> "$BUILD_INDEX"
-  cat "$PROJECT_DIR/style.css" >> "$BUILD_INDEX"
+  cat "$PROJECT_DIR/src/style.css" >> "$BUILD_INDEX"
   echo "  </style>" >> "$BUILD_INDEX"
 fi
 
@@ -203,4 +202,3 @@ MID2
 # Count pages
 PAGE_COUNT=$(echo "$PAGES" | wc -l | tr -d ' ')
 echo "✅ Built: $BUILD_INDEX ($PAGE_COUNT pages, self-contained)"
-echo "   Source index.html preserved (dev mode with fetch)"

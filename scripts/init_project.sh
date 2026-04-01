@@ -33,15 +33,15 @@ fi
 echo "📁 创建项目: $PROJECT_NAME (模板: $TEMPLATE)"
 
 # Create directory structure
-mkdir -p "$PROJECT_DIR/pages"
+mkdir -p "$PROJECT_DIR/src/pages"
 mkdir -p "$PROJECT_DIR/assets"
 
-# Copy base index.html
-cp "$SKILL_DIR/templates/base-index.html" "$PROJECT_DIR/index.html"
+# Copy base index.html into src/
+cp "$SKILL_DIR/templates/base-index.html" "$PROJECT_DIR/src/index.html"
 
 # Generate style.css from template
 if [[ -f "$TEMPLATE_FILE" ]]; then
-  echo "/* Generated from template: $TEMPLATE */" > "$PROJECT_DIR/style.css"
+  echo "/* Generated from template: $TEMPLATE */" > "$PROJECT_DIR/src/style.css"
   # Extract CSS variables from template
   grep -A 50 '## 配色' "$TEMPLATE_FILE" | grep -E '^\-|^[0-9]' | while IFS= read -r line; do
     # Parse color values
@@ -52,7 +52,7 @@ if [[ -f "$TEMPLATE_FILE" ]]; then
     fi
   done
 else
-  echo "/* Custom template — edit as needed */" > "$PROJECT_DIR/style.css"
+  echo "/* Custom template — edit as needed */" > "$PROJECT_DIR/src/style.css"
 fi
 
 # Slide ratio (default 16:9, override with SLIDE_RATIO env var)
@@ -102,7 +102,7 @@ sed -i.bak "s/CREATED_DATE/$(date +%Y-%m-%d)/g" "$PROJECT_DIR/project-index.md"
 rm -f "$PROJECT_DIR/project-index.md.bak"
 
 # Create a placeholder first page
-cat > "$PROJECT_DIR/pages/01-title.html" << 'EOF'
+cat > "$PROJECT_DIR/src/pages/01-title.html" << 'EOF'
 <section>
   <h1>演示标题</h1>
   <p>副标题</p>
@@ -119,7 +119,7 @@ python3 -c "
 import json
 with open('$PROJECT_DIR/manifest.json') as f:
     m = json.load(f)
-m['pages'] = ['pages/01-title.html']
+m['pages'] = ['src/pages/01-title.html']
 with open('$PROJECT_DIR/manifest.json', 'w') as f:
     json.dump(m, f, indent=2, ensure_ascii=False)
 "
@@ -129,17 +129,19 @@ echo "✅ 项目创建完成: $PROJECT_DIR"
 echo ""
 echo "📁 结构:"
 echo "  $PROJECT_NAME/"
-echo "  ├── index.html        ← 动态加载 pages/*.html"
+echo "  ├── index.html        ← 构建产物（双击可打开）"
 echo "  ├── dev-server.py     ← 本地预览服务器"
 echo "  ├── project-index.md"
 echo "  ├── manifest.json"
-echo "  ├── style.css"
 echo "  ├── assets/"
-echo "  └── pages/"
-echo "      └── 01-title.html"
+echo "  └── src/"
+echo "      ├── index.html    ← 开发版（动态加载 pages）"
+echo "      ├── style.css"
+echo "      └── pages/"
+echo "          └── 01-title.html"
 echo ""
 echo "🚀 下一步:"
 echo "  1. 编辑 project-index.md 填写项目信息"
-echo "  2. 在 pages/ 下创建演示页面，并更新 index.html 的 PAGE_MANIFEST"
+echo "  2. 在 src/pages/ 下创建演示页面，并更新 src/index.html 的 PAGE_MANIFEST"
 echo "  3. 启动本地预览：python3 dev-server.py"
 echo "  4. 浏览器打开 http://localhost:8000"
