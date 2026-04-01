@@ -98,6 +98,18 @@ bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>
 - `<project-dir>/build/index.html` — 双击可打开的独立 HTML（需联网加载 CDN 资源）
 - `<project-dir>/presentation.pdf` — PDF 版本
 
+### Rule 6: 禁用 emoji，使用网络素材辅助设计
+
+**❌ 禁止使用 emoji 作为图标或视觉占位。** 所有图标和装饰必须使用专业素材。
+
+**必须使用网络素材提升设计品质：**
+- 图标 → Lucide Icons CDN 或内联 SVG
+- 背景图/壁纸 → Unsplash / Pexels（`web_search site:unsplash.com {关键词}` 搜索）
+- 占位图 → Lorem Picsum（seed 可复现）
+- 装饰 → CSS 渐变 / 内联 SVG
+
+详见下方「🌐 网络素材检索」章节。
+
 ---
 
 ## Project Paths
@@ -176,10 +188,7 @@ Adapt to user's starting point:
    然后用浏览器打开 `http://localhost:8000`。如果端口被占用，换 8001/8002 等。
 8. **Polish** — 动画、单页调整、内容溢出检查。风格和动画遵循模板偏好，模板未指定时参考 `system-prompt/style-guide.md`。
 9. **Export PDF** — **必须执行：** `bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>` → 生成 `presentation.pdf`
-10. **Deliver** — 确认交付清单完整：
-    - `<project-dir>/pages/*.html` — 可编辑源文件
-    - `<project-dir>/build/index.html` — 双击可打开的独立 HTML
-    - `<project-dir>/presentation.pdf` — PDF 版本
+10. **Deliver** — 按 Rule 5 交付清单执行。
 
 **注意：开发预览用 dev-server.py（HTTP 服务器），不需要 build.sh 内联。** build.sh 仅用于需要单文件离线分发的场景，且输出到 `build/` 目录，不覆盖源文件。
 
@@ -198,23 +207,6 @@ cd <project-dir> && python3 dev-server.py &
 ```bash
 python3 dev-server.py 8001 &
 ```
-
-### Slide Size Rules
-- **默认 16:9** (1920×1080)，无需询问
-- 仅当用户明确提到 4:3 时，使用 4:3 (1440×1080)
-- All page content **MUST fit within** the slide canvas — no overflow
-- Set `SLIDE_RATIO=4:3` when calling `init_project.sh`（默认 16:9 不需要设置）
-
-### Active Questioning
-When requirements are unclear, **stop and ask** before building. Use structured questions:
-- Core message / thesis?
-- Target audience and their background?
-- Duration / number of slides?
-- Key sections or must-include content?
-- Any reference materials or existing content?
-- Style preference (formal academic / modern tech / minimal)?
-
-Present options clearly and wait for confirmation.
 
 ## Project Structure
 
@@ -360,14 +352,7 @@ All templates and page types support Chinese and English.
 
 ## 🌐 网络素材检索 (Web Asset Sourcing)
 
-**从互联网获取专业视觉素材，提升设计品质。全程自动，无需人工介入。**
-
-### 核心原则
-
-1. **专业素材优先** — 用真实图片/图标/渐变替代 emoji 占位
-2. **全自动** — 只使用无需注册/登录的来源，Agent 独立完成
-3. **免费可商用** — 仅使用明确可商用的资源
-4. **性能优先** — 适中尺寸 + `loading="lazy"` + 不过大图片
+Rule 6 的详细说明。**全程自动，无需人工介入。**
 
 ### 可用工具
 
@@ -382,21 +367,19 @@ All templates and page types support Chinese and English.
 | 占位图 | Lorem Picsum | URL 即图片，seed 可复现 |
 | 装饰 | CSS 渐变 / 内联 SVG | 纯代码，无外部依赖 |
 
-**搜索技巧：** `web_search site:unsplash.com {关键词}` 或 `site:pexels.com {关键词}` → 从结果中提取图片 ID → 构造直链引用。
+**搜索技巧：** `web_search site:unsplash.com {关键词}` → 从结果中提取图片 ID → 构造直链引用。
 
 ### 设计注意事项
 
 - 背景图叠加暗色遮罩层保证文字可读性
 - 图片做 `object-fit: cover` 统一视觉
-- 无合适素材时用 CSS 渐变/SVG 内联替代，不退化为 emoji
 
 ### 禁忌
 
-- ❌ emoji 作为图标或占位
 - ❌ 不明版权的图片
 - ❌ 需要注册/登录/API Key 的来源
 - ❌ 单张图片超过 2MB
 
 ---
 
-*网络素材检索 v1.2 | 2026-04-01*
+*网络素材检索 v1.3 | 2026-04-01*
