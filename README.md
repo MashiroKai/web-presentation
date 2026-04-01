@@ -122,7 +122,7 @@ src/pages/
 Agent 会：
 1. 确认需求细节（目标受众、页数、关键内容）
 2. 匹配模板，呈现方案供确认
-3. 确认后初始化项目，生成 `pages/*.html`
+3. 确认后初始化项目，生成 `src/pages/*.html`
 4. 自动启动本地服务器，打开浏览器预览
 5. 完成后导出 PDF
 
@@ -163,7 +163,7 @@ python3 dev-server.py        # 默认 8000 端口
 python3 dev-server.py 8080   # 自定义端口
 ```
 
-浏览器打开 `http://localhost:8000`。
+浏览器打开 `http://localhost:8000/src/`。
 
 ## 模板
 

@@ -185,7 +185,7 @@ Adapt to user's starting point:
    ```bash
    cd <project-dir> && python3 dev-server.py &
    ```
-   然后用浏览器打开 `http://localhost:8000`。如果端口被占用，换 8001/8002 等。
+   然后用浏览器打开 `http://localhost:8000/src/`。如果端口被占用，换 8001/8002 等。
 8. **Polish** — 动画、单页调整、内容溢出检查。风格和动画遵循模板偏好，模板未指定时参考 `system-prompt/style-guide.md`。
 9. **Export PDF** — **必须执行：** `bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>` → 生成 `presentation.pdf`
 10. **Deliver** — 按 Rule 5 交付清单执行。
@@ -201,7 +201,7 @@ Adapt to user's starting point:
 cd <project-dir> && python3 dev-server.py &
 ```
 
-然后打开 `http://localhost:8000` 让用户直接看到效果。
+然后打开 `http://localhost:8000/src/` 让用户直接看到效果。
 
 如果端口被占用（Address already in use），换一个端口：
 ```bash

@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', loadSlides);
 
 ```bash
 cd project-dir && python3 dev-server.py
-# 打开 http://localhost:8000
+# 打开 http://localhost:8000/src/
 ```
 
 `src/index.html` 通过 `PAGE_MANIFEST` 数组动态加载 `pages/*.html`，修改页面后刷新即可看到效果。
