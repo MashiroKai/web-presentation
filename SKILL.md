@@ -98,9 +98,9 @@ bash <SKILL_DIR>/scripts/export-pdf.sh <project-dir>
 - `<project-dir>/build/index.html` — 双击可打开的独立 HTML（需联网加载 CDN 资源）
 - `<project-dir>/presentation.pdf` — PDF 版本
 
-### Rule 6: 禁用 emoji，使用网络素材辅助设计
+### Rule 6: 优先使用网络素材优化设计
 
-**❌ 禁止使用 emoji 作为图标或视觉占位。** 所有图标和装饰必须使用专业素材。
+**优先使用专业素材（图标/壁纸/渐变）提升视觉品质，少用 emoji。** emoji 仅作为最后手段，不得作为主要设计元素。
 
 **必须使用网络素材提升设计品质：**
 - 图标 → Lucide Icons CDN 或内联 SVG
